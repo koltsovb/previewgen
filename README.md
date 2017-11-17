@@ -14,6 +14,13 @@ go build
 ```
 go test -v
 ```
+### Run
+```
+previewgen -p=8080 -d=/tmp/pg 
+# -p - service port
+# -d - service working directory (for log file and image' thumb)
+# to display log - tail -f /tmp/pg/previewgen.log
+```
 
 
 ## API
