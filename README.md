@@ -1,10 +1,26 @@
 # previewgen
-Previewgen is a http-servise intended for creating image 100x100 preview.
+Previewgen is a http-service intended for creating image 100x100 preview.
+
+### Dependances
+```
+github.com/nfnt/resize
+```
+
+### Build
+```
+go build
+```
+### Test
+```
+go test -v
+```
+
 
 ## API
-```
+
 ### 1. Post image in json
-#### Request:
+### Request:
+```
 POST /files HTTP/1.1
 Host: 127.0.0.1
 Content-Type: application/json
@@ -24,22 +40,58 @@ Content-Type: application/json
       }
     ]
 }
-
-Responce:
+```
+### Responce:
+```
 HTTP/1.1 200 OK
 {
   "f1":6,
   "f2":7
 }
-
-2. Post image-url in json
-
-3. Post image in form-data
 ```
 
-### Dependances
+### 2. Post image-url in json
+### Request:
 ```
-github.com/nfnt/resize
+POST /files HTTP/1.1
+Host: 127.0.0.1
+Content-Type: application/json
+
+{ 
+	"Type" : "urls",
+	"Files" : [ 
+       {"URL" : "http://redis.io/images/redis-white.png"},
+       { "URL" : "https://memcached.org/images/memcached_banner75.jpg" }
+    ]
+}
+```
+### Responce:
+```
+HTTP/1.1 200 OK
+{
+ "http://redis.io/images/redis-white.png":4,
+ "https://memcached.org/images/memcached_banner75.jpg":5
+}
+```
+### 3. Post image in form-data
+### Request:
+```
+POST /files HTTP/1.1
+Host: 127.0.0.1
+Content-Type: multipart/form-data; boundary=------------------------dfa1a27f9d9cca0c
+Content-Disposition: form-data; name="image_field"; filename="1.jpg"
+Content-Type: image/jpeg
+# file data
+boundary=------------------------dfa1a27f9d9cca0c
+```
+### Responce:
+```
+HTTP/1.1 200 OK
+{
+ "1.jpg":9
+}
 ```
 
-###
+
+
+
