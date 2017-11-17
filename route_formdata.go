@@ -57,6 +57,6 @@ func (s *Server) routeFormFiles(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write(answer)
 	w.Header().Set("Content-Type", "application/json")
+	w.Write(answer)
 }

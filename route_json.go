@@ -93,8 +93,8 @@ func(s *Server) processFiles(w http.ResponseWriter, r *http.Request, data json.R
 		return
 	}
 
-	w.Write(answer)
 	w.Header().Set("Content-Type", "application/json")
+	w.Write(answer)
 }
 
 func(s *Server) processUrls(w http.ResponseWriter, r *http.Request, data json.RawMessage) {
@@ -159,7 +159,7 @@ func(s *Server) processUrls(w http.ResponseWriter, r *http.Request, data json.Ra
 		return
 	}
 
-	w.Write(answer)
 	w.Header().Set("Content-Type", "application/json")
+	w.Write(answer)
 }
 
