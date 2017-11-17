@@ -1,0 +1,3 @@
+Files for test:
+files - contain json (with 2 files in base64: 1.jpg and 1.png)
+urls - contain json (with 2 urls)
