@@ -60,9 +60,9 @@ Content-Type: application/json
 { 
 	"Type" : "urls",
 	"Files" : [ 
-       {"URL" : "http://redis.io/images/redis-white.png"},
-       { "URL" : "https://memcached.org/images/memcached_banner75.jpg" }
-    ]
+	       {"URL" : "http://redis.io/images/redis-white.png"},
+	       { "URL" : "https://memcached.org/images/memcached_banner75.jpg" }
+	]
 }
 ```
 ### Responce:
