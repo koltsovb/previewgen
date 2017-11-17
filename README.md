@@ -91,7 +91,10 @@ HTTP/1.1 200 OK
  "1.jpg":9
 }
 ```
-
+### curl example
+```
+curl -v -X POST -F "image_field=@./test/1.jpg" '127.0.0.1/files'
+```
 
 
 
