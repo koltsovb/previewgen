@@ -1,9 +1,9 @@
 # previewgen
 Previewgen is a http-service intended for creating image 100x100 preview.
 
-### Dependances
+### Install dependencies
 ```
-github.com/nfnt/resize
+go get github.com/nfnt/resize
 ```
 
 ### Build
