@@ -1,11 +1,14 @@
 package main
 
 import (
-	"strings"
+	"context"
 	"flag"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"strings"
+	"time"
 )
 
 // Returned errors
@@ -48,8 +51,27 @@ func main() {
 
 	log.SetOutput(file)
 
+	//------------------------------- start http-server
+	//subscribe to Signal
+	stop := make(chan os.Signal, 1)
+	signal.Notify(stop, os.Interrupt)
+
 	// serve http
-	handler := &Server{workDir : dir}
-	log.Fatal( http.ListenAndServe(":" + port, handler) )  
+	handler := &Server{workDir: dir}
+	server := &http.Server{Addr: ":" + port, Handler: handler}
+ 
+	go func() { 
+		err := server.ListenAndServe()
+		log.Println("Server exit with err: ", err) 
+	}()
+
+	//wait Signal
+	<-stop
+	log.Println("Start shutdown ...")
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	server.Shutdown(ctx)
+	defer cancel()
+	log.Println("Server was stopped")
+	
 }
 
