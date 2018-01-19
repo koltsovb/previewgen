@@ -7,8 +7,10 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"runtime"
 	"strings"
 	"time"
+	"net/http/pprof"
 )
 
 // Returned errors
@@ -22,7 +24,7 @@ const logFile = "previewgen.log"
 
 func main() {
 	log.Println("start")
-	
+
 	// read settings
 	var port, dir string
 	flag.StringVar(&port, "p", "", "Server port")
@@ -57,8 +59,21 @@ func main() {
 	signal.Notify(stop, os.Interrupt)
 
 	// serve http
+	m := http.NewServeMux()
+
 	handler := &Server{workDir: dir}
-	server := &http.Server{Addr: ":" + port, Handler: handler}
+	m.HandleFunc("/", handler.ServeHTTP)
+
+	// for profiler
+	runtime.SetBlockProfileRate(1)
+	m.HandleFunc("/debug/pprof/", pprof.Index)
+	m.HandleFunc("/debug/pprof/cmdline", pprof.Cmdline)
+	m.HandleFunc("/debug/pprof/profile", pprof.Profile)
+	m.HandleFunc("/debug/pprof/symbol", pprof.Symbol)
+	m.HandleFunc("/debug/pprof/trace", pprof.Trace)
+
+	server := &http.Server{Addr: ":" + port, Handler: m}
+
  
 	go func() { 
 		err := server.ListenAndServe()
